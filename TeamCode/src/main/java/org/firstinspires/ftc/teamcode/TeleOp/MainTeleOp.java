@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.StartEndCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -15,6 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.teleop.DriveSubsystem;
 public class MainTeleOp extends CommandOpMode {
     // MOTORS
     private Motor fL, fR, bL, bR;
+    private Motor testMotor;
 
     // SUBSYSTEMS
     private DriveSubsystem driveSubsystem;
@@ -28,6 +31,7 @@ public class MainTeleOp extends CommandOpMode {
 
     // CONSTANTS
     private final double DRIVE_MULT = 1.0;
+    private final double MOTORSPEED = 0.75;
 
     @Override
     public void initialize() {
@@ -36,6 +40,8 @@ public class MainTeleOp extends CommandOpMode {
         fR = new Motor(hardwareMap, "frontRight");
         bL = new Motor(hardwareMap, "backLeft");
         bR = new Motor(hardwareMap, "backRight");
+
+        testMotor = new Motor(hardwareMap, "testMotor");
 
         // Initializing Extras
         gPad1 = new GamepadEx(gamepad1);
@@ -59,6 +65,10 @@ public class MainTeleOp extends CommandOpMode {
         register(driveSubsystem);
         driveSubsystem.setDefaultCommand(driveCommand);
 
+
+        //TODO: Work on game-pad.
+        gPad1.getGamepadButton(GamepadKeys.Button.X)
+                .whenHeld(new StartEndCommand(()-> testMotor.set(MOTORSPEED), () -> testMotor.stopMotor()));
 
     }
 }
