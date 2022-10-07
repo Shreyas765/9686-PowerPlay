@@ -11,7 +11,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.commands.TeleOp.DriveCommand;
+import org.firstinspires.ftc.teamcode.commands.TeleOp.TestMotorCommand;
 import org.firstinspires.ftc.teamcode.subsystems.teleop.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.teleop.TestMotorSubsystem;
 
 @TeleOp(name = "Main")
 public class MainTeleOp extends CommandOpMode {
@@ -21,9 +23,11 @@ public class MainTeleOp extends CommandOpMode {
 
     // SUBSYSTEMS
     private DriveSubsystem driveSubsystem;
+    private TestMotorSubsystem testMotorSubsystem;
 
     // COMMANDS
     private DriveCommand driveCommand;
+    private TestMotorCommand testMotorCommand;
 
     // EXTRAS
     private GamepadEx gPad1;
@@ -31,7 +35,7 @@ public class MainTeleOp extends CommandOpMode {
 
     // CONSTANTS
     private final double DRIVE_MULT = 1.0;
-    private final double MOTORSPEED = 0.75;
+    private final double MOTOR_SPEED = 0.75;
 
     @Override
     public void initialize() {
@@ -49,6 +53,9 @@ public class MainTeleOp extends CommandOpMode {
         // Initializing Commands and Subsystems
         driveSubsystem = new DriveSubsystem(fL, fR, bL, bR, revIMU);
         driveCommand = new DriveCommand(driveSubsystem, gPad1::getLeftX, gPad1::getLeftY, gPad1::getRightX, DRIVE_MULT);
+        testMotorSubsystem = new TestMotorSubsystem(testMotor);
+        testMotorCommand = new TestMotorCommand(testMotorSubsystem, MOTOR_SPEED);
+
 
         // Motor Settings
         fL.motor.setDirection(DcMotor.Direction.REVERSE);
@@ -66,9 +73,12 @@ public class MainTeleOp extends CommandOpMode {
         driveSubsystem.setDefaultCommand(driveCommand);
 
 
-        //TODO: Work on game-pad.
+        //Game-pad
+//        gPad1.getGamepadButton(GamepadKeys.Button.X)
+//                .whenHeld(new StartEndCommand(()-> testMotor.set(MOTORSPEED), () -> testMotor.stopMotor()));
+
         gPad1.getGamepadButton(GamepadKeys.Button.X)
-                .whenHeld(new StartEndCommand(()-> testMotor.set(MOTORSPEED), () -> testMotor.stopMotor()));
+                .whenHeld(testMotorCommand);
 
     }
 }
