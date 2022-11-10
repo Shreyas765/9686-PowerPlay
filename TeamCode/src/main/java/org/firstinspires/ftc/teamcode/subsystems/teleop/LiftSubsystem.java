@@ -22,6 +22,10 @@ public class LiftSubsystem extends SubsystemBase {
         liftMotor.set(-0.5);
     }
 
+    public void stop(){
+        liftMotor.set(0);
+    }
+
 
     //TODO: Viggy
 

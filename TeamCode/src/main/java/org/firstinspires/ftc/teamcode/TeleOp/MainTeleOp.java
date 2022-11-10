@@ -48,7 +48,7 @@ public class MainTeleOp extends CommandOpMode {
 
         liftMotor = new Motor(hardwareMap, "liftMotor");
 
-        // Initializing Extras
+        // Initializing sa
         gPad1 = new GamepadEx(gamepad1);
 
         // Initializing Subsystems
@@ -72,6 +72,8 @@ public class MainTeleOp extends CommandOpMode {
         bL.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bR.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+       liftMotor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+
         //GamePad controls:
         gPad1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenHeld(
                 (new DriveCommand(driveSubsystem,gPad1::getLeftX, gPad1::getLeftY, gPad1::getRightX, DRIVE_MULT)));
@@ -80,11 +82,10 @@ public class MainTeleOp extends CommandOpMode {
         gPad1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenHeld(liftCommandDown);
 
 
-
-
         // Sets default command for drivetrain
         register(driveSubsystem);
         driveSubsystem.setDefaultCommand(driveCommand);
+
 
 
     }

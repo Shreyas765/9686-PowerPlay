@@ -13,9 +13,12 @@ public class LiftCommandUp extends CommandBase {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         liftSubsystem.motorUp();
     }
 
-
+    @Override
+    public void end(boolean interrupted) {
+        liftSubsystem.stop();
+    }
 }
