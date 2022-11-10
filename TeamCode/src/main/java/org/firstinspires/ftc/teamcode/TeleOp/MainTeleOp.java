@@ -72,14 +72,20 @@ public class MainTeleOp extends CommandOpMode {
         bL.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bR.motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        //GamePad controls:
+        gPad1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenHeld(
+                (new DriveCommand(driveSubsystem,gPad1::getLeftX, gPad1::getLeftY, gPad1::getRightX, DRIVE_MULT)));
+
+        gPad1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenHeld(liftCommandUp);
+        gPad1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenHeld(liftCommandDown);
+
+
+
 
         // Sets default command for drivetrain
         register(driveSubsystem);
         driveSubsystem.setDefaultCommand(driveCommand);
 
-
-        gPad1.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenHeld(liftCommandUp);
-        gPad1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenHeld(liftCommandDown);
 
     }
 }
